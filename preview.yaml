@@ -1,0 +1,46 @@
+# What tools/preview.py shows the tile with (docs/PREVIEW.md): a few sensors in the shape Home Assistant's
+# entur_public_transport integration gives them, and the tile pointed at each.
+tiles:
+  - tile: next
+    name: Jernbanetorget
+    entity: sensor.entur_jernbanetorget
+    sizes: [1x1, 2x2]
+  - tile: next
+    name: Running late
+    entity: sensor.entur_delayed
+  - tile: next
+    name: Five minutes to walk
+    entity: sensor.entur_jernbanetorget
+    options: { walk: 5 }
+    sizes: [2x1]
+  - tile: next
+    name: No more today
+    entity: sensor.entur_none
+  - tile: next
+    name: No sensor chosen yet
+    sizes: [1x1]
+
+states:
+  sensor.entur_jernbanetorget:
+    state: "7"
+    attributes:
+      route: "20 Jernbanetorget"
+      delay: 0
+      real_time: true
+      next_route: "31 Fornebu"
+      next_delay: 0
+      next_real_time: true
+      next_due_in: "19 min"
+  sensor.entur_delayed:
+    state: "4"
+    attributes:
+      route: "5 Grünerløkka"
+      delay: 3
+      real_time: true
+      next_route: "5 Grünerløkka"
+      next_delay: 0
+      next_real_time: true
+      next_due_in: "24 min"
+  sensor.entur_none:
+    state: "unknown"
+    attributes: {}

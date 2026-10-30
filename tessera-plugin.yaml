@@ -1,0 +1,34 @@
+# The manifest: who made the plugin, what it may do, and what the Tessera app shows. No code and no words: every
+# name, label and hint below is a key into translations/<language>.json, part "app". docs/MANIFEST.md has every field.
+id: entur_departures
+version: 0.1.0
+api: "0.5"
+icon: bus
+maintainer: oleops1
+license: MIT
+stage: beta
+topics: [travel]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 6
+
+tiles:
+  - id: next
+    name: tile_name
+    icon: bus
+    sizes: { min: 1x1, max: 2x2 }
+    memory: 700
+    # The tile belongs to a sensor: the inspector offers every sensor that has a "route" attribute, which is how Home
+    # Assistant's own entur_public_transport integration marks its departure sensors. No fetch, no network: the data
+    # is already in Home Assistant (docs/MAKING_A_PLUGIN.md, "Where the backend lives").
+    domains: [sensor]
+    has_attributes: [route]
+    attributes: [route, delay, real_time, next_route, next_delay, next_real_time, next_due_in]
+    example: tile_example
+    # How the editor draws the tile from its data (it cannot run the C++): the minutes until the next departure, and
+    # its line and destination.
+    preview: { badge: "{state}", title: "{route}" }
+    options:
+      - { id: walk, kind: number, min: 0, max: 30, step: 1, unit: min, default: 0, label: walk, hint: walk_hint }
+      - { id: late, kind: toggle, default: true, label: late, hint: late_hint }

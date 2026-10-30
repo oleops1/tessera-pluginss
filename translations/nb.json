@@ -1,0 +1,21 @@
+{
+  "_meta": { "name": "Norsk bokmål" },
+  "screen": {
+    "now": "nå",
+    "minutes": "{n} min",
+    "then": "så {when}",
+    "none": "Ingen flere avganger",
+    "choose_sensor": "Velg en sensor",
+    "late": "+{n}"
+  },
+  "app": {
+    "name": "Kollektivtransport (Entur)",
+    "summary": "Når neste buss, trikk, tog, T-bane eller ferge går fra holdeplassen din, fra Enturs data i Home Assistant.",
+    "tile_name": "Neste avgang",
+    "tile_example": "7 min til Nationaltheatret",
+    "walk": "Gangtid til holdeplassen",
+    "walk_hint": "Avganger du ikke når lenger, blir hoppet over.",
+    "late": "Vis forsinkelser",
+    "late_hint": "En avgang som er ett minutt eller mer forsinket, får «+2» etter hvor den går."
+  }
+}

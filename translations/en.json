@@ -1,0 +1,21 @@
+{
+  "_meta": { "name": "English" },
+  "screen": {
+    "now": "now",
+    "minutes": "{n} min",
+    "then": "then {when}",
+    "none": "No more departures",
+    "choose_sensor": "Choose a sensor",
+    "late": "+{n}"
+  },
+  "app": {
+    "name": "Public transport (Entur)",
+    "summary": "When the next bus, tram, train, metro or ferry leaves your stop, from Entur's data in Home Assistant.",
+    "tile_name": "Next departure",
+    "tile_example": "7 min to Nationaltheatret",
+    "walk": "Walk to the stop",
+    "walk_hint": "Departures you can no longer make are skipped.",
+    "late": "Show delays",
+    "late_hint": "A departure that runs a minute or more late gets \"+2\" behind where it goes."
+  }
+}
