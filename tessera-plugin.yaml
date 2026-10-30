@@ -1,7 +1,7 @@
 # The manifest: who made the plugin, what it may do, and what the Tessera app shows. No code and no words: every
 # name, label and hint below is a key into translations/<language>.json, part "app". docs/MANIFEST.md has every field.
 id: entur_departures
-version: 0.1.0
+version: 0.2.0
 api: "0.5"
 icon: bus
 maintainer: oleops1
@@ -18,7 +18,7 @@ tiles:
     name: tile_name
     icon: bus
     sizes: { min: 1x1, max: 2x2 }
-    memory: 700
+    memory: 850
     # The tile belongs to a sensor: the inspector offers every sensor that has a "route" attribute, which is how Home
     # Assistant's own entur_public_transport integration marks its departure sensors. No fetch, no network: the data
     # is already in Home Assistant (docs/MAKING_A_PLUGIN.md, "Where the backend lives").

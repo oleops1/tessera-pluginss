@@ -4,6 +4,8 @@
     "now": "nå",
     "minutes": "{n} min",
     "then": "så {when}",
+    "go_in": "Gå om {n} min",
+    "go_now": "Gå nå",
     "none": "Ingen flere avganger",
     "choose_sensor": "Velg en sensor",
     "late": "+{n}"
@@ -14,7 +16,7 @@
     "tile_name": "Neste avgang",
     "tile_example": "7 min til Nationaltheatret",
     "walk": "Gangtid til holdeplassen",
-    "walk_hint": "Avganger du ikke når lenger, blir hoppet over.",
+    "walk_hint": "Med gangtid satt sier ruten når du må gå, i stedet for selve nedtellingen; en avgang du ikke når lenger, blir hoppet over.",
     "late": "Vis forsinkelser",
     "late_hint": "En avgang som er ett minutt eller mer forsinket, får «+2» etter hvor den går."
   }

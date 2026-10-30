@@ -14,6 +14,14 @@ tiles:
     options: { walk: 5 }
     sizes: [2x1]
   - tile: next
+    name: Leave now
+    entity: sensor.entur_jernbanetorget
+    options: { walk: 7 }
+  - tile: next
+    name: This one is missed, shows the next
+    entity: sensor.entur_jernbanetorget
+    options: { walk: 8 }
+  - tile: next
     name: No more today
     entity: sensor.entur_none
   - tile: next

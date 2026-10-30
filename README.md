@@ -5,9 +5,10 @@ reads a sensor you already have from Home Assistant's own
 [Entur integration](https://www.home-assistant.io/integrations/entur_public_transport); this plugin asks nothing of
 Entur itself, so it needs no account, no key and no extra permission.
 
-The tile shows the line and where it goes, how many minutes until it leaves (ticking down on the screen's own clock
-between two updates), and the departure after that below it. A delay of a minute or more shows as "+2" behind where
-it goes.
+The tile shows the name you gave it, the line and where it goes, and how many minutes until it leaves (ticking down
+on the screen's own clock between two updates). A delay of a minute or more shows as "+2" behind where it goes.
+Without a walk time it also shows the departure after that below; with one, it shows when you must leave instead
+("Leave in 12 min", then "Leave now"), and moves on to the next departure once this one is missed.
 
 ## Set up
 
@@ -38,8 +39,11 @@ Skip this if you already have `sensor.entur_...` entities.
 3. In the inspector, choose the sensor for the stop you want under its entity field. Tessera offers every sensor that
    looks like an Entur departure sensor, so yours are easy to pick out even on a large installation.
 4. Add one more tile per stop or platform you want to watch; each picks its own sensor.
-5. Set **Walk to the stop** to the minutes you need to get there; a departure you can no longer make is skipped in
-   favour of the one after it. Turn **Show delays** off if you would rather not see them.
+5. Give the tile a name under **Name on the screen** (every tile has this field); it shows at the top, which stop it
+   is matters once you have more than one.
+6. Set **Walk to the stop** to the minutes you need to get there. With it set, the tile tells you when to leave
+   instead of the bare countdown to the bus, and moves on to the next departure once you can no longer make this
+   one. Turn **Show delays** off if you would rather not see them.
 
 ## Good to know
 
@@ -49,6 +53,9 @@ Skip this if you already have `sensor.entur_...` entities.
 - Only the next departure and the one after it have a line and a destination the tile can show; departures further
   out that the integration's `number_of_departures` option adds come as plain text it does not read yet.
 - A departure you can no longer make (through **Walk to the stop**) is skipped; when none are left, the tile says so.
+- The words on the screen (including this tile's) follow the screen's own build language. This plugin has English
+  and Norwegian (Bokmål); a screen built in another language shows it in English. The screen's language is a setting
+  of the screen itself, not of this plugin, so change it there to get Norwegian everywhere, not only on this tile.
 - Works on every board, the CYD included.
 
 ## How it works

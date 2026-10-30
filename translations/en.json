@@ -4,6 +4,8 @@
     "now": "now",
     "minutes": "{n} min",
     "then": "then {when}",
+    "go_in": "Leave in {n} min",
+    "go_now": "Leave now",
     "none": "No more departures",
     "choose_sensor": "Choose a sensor",
     "late": "+{n}"
@@ -14,7 +16,7 @@
     "tile_name": "Next departure",
     "tile_example": "7 min to Nationaltheatret",
     "walk": "Walk to the stop",
-    "walk_hint": "Departures you can no longer make are skipped.",
+    "walk_hint": "With a walk set, the tile says when to leave instead of the bare countdown; a departure you can no longer make is skipped.",
     "late": "Show delays",
     "late_hint": "A departure that runs a minute or more late gets \"+2\" behind where it goes."
   }

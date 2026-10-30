@@ -44,10 +44,12 @@ struct Departure {
   bool known = false;
 };
 
-// A departure adjusted for the time since the last update and the walk to the stop, ready to show.
+// A departure adjusted for the time since the last update, ready to show: when the bus itself leaves, and, with a
+// walk time set, when a person must leave to still catch it.
 struct Shown {
   std::string line, to;
-  int minutes = 0;
+  int raw_minutes = 0;
+  int go_minutes = 0;
   int delay = 0;
   bool realtime = true;
 };
@@ -65,7 +67,14 @@ class NextTile : public tessera::Tile {
     height_ = c.height;
     walk_ = c.options["walk"] | 0;
     late_ = c.options["late"] | true;
+    name_h_ = ui::line_height(Font::BODY);
     head_ = std::max(ui::line_height(Font::TITLE), ui::line_height(Font::BODY)) + ui::px(4);
+
+    name_ = ui::label(c.parent, Font::BODY, theme::MUTED);
+    lv_label_set_long_mode(name_, LV_LABEL_LONG_CLIP);
+    lv_obj_set_size(name_, width_, name_h_);
+    lv_obj_set_pos(name_, 0, 0);
+    ui::set_text(name_, c.name);
 
     badge_ = ui::block(c.parent, theme::ACCENT);
     number_ = ui::label(badge_, Font::TITLE, theme::ON_ACCENT);
@@ -134,11 +143,17 @@ class NextTile : public tessera::Tile {
     }
 
     place_badge(d.line, with_delay(d));
-    place_number(when_text(d.minutes));
-    ui::set_text(later_, has_n ? tessera::fill(plugin_->text("then"), "when", when_text(n.minutes) + "  " + n.to) : "");
+    place_number(when_text(d.raw_minutes));
+    if (walk_ > 0) {
+      ui::set_text(later_, go_text(d.go_minutes));
+    } else {
+      ui::set_text(later_,
+                    has_n ? tessera::fill(plugin_->text("then"), "when", when_text(n.raw_minutes) + "  " + n.to) : "");
+    }
   }
 
   void on_theme() override {
+    ui::set_color(name_, theme::MUTED);
     lv_obj_set_style_bg_color(badge_, ui::color(theme::ACCENT), 0);
     ui::set_color(number_, theme::ON_ACCENT);
     ui::set_color(to_, theme::MUTED);
@@ -147,15 +162,17 @@ class NextTile : public tessera::Tile {
   }
 
  private:
-  // Minutes left for a departure, the time since the last update and the walk to the stop taken off; false when it
-  // can no longer be made.
+  // When the bus itself leaves (the time since the last update taken off) and, with a walk time set, when a person
+  // must leave to still catch it; false once that is in the past, so the tile moves on to the one after.
   bool adjust(const Departure &dep, Shown &out) const {
     if (!dep.known) return false;
-    const int left = dep.minutes - elapsed_ - walk_;
-    if (left < 0) return false;
+    const int raw = dep.minutes - elapsed_;
+    const int go = raw - walk_;
+    if (go < 0) return false;
     out.line = dep.line;
     out.to = dep.to;
-    out.minutes = left;
+    out.raw_minutes = raw;
+    out.go_minutes = go;
     out.delay = dep.delay;
     out.realtime = dep.realtime;
     return true;
@@ -171,6 +188,12 @@ class NextTile : public tessera::Tile {
     return tessera::format(plugin_->text("minutes"), static_cast<long>(minutes));
   }
 
+  // When to leave for the walk to the stop: "Leave in 12 min", then "Leave now" the minute it is due.
+  std::string go_text(int minutes) const {
+    if (minutes <= 0) return plugin_->text("go_now");
+    return tessera::format(plugin_->text("go_in"), static_cast<long>(minutes));
+  }
+
   void place_badge(const std::string &line, const std::string &to) {
     const bool shown = !line.empty();
     lv_obj_set_style_opa(badge_, shown ? LV_OPA_COVER : LV_OPA_TRANSP, 0);
@@ -178,12 +201,12 @@ class NextTile : public tessera::Tile {
     const int pad = ui::px(ui::large() ? 8 : 5);
     const int badge_w = shown ? std::min(width_ / 2, ui::text_width(line, Font::TITLE) + 2 * pad) : 0;
     lv_obj_set_size(badge_, std::max(1, badge_w), head_);
-    lv_obj_set_pos(badge_, 0, 0);
+    lv_obj_set_pos(badge_, 0, name_h_);
     lv_obj_center(number_);
     const int x = shown ? badge_w + ui::px(6) : 0;
     ui::set_text(to_, to);
     lv_obj_set_size(to_, std::max(1, width_ - x), ui::line_height(Font::BODY));
-    lv_obj_set_pos(to_, x, (head_ - ui::line_height(Font::BODY)) / 2);
+    lv_obj_set_pos(to_, x, name_h_ + (head_ - ui::line_height(Font::BODY)) / 2);
   }
 
   // The time takes the largest face that fits the card, the way a clock does.
@@ -208,17 +231,17 @@ class NextTile : public tessera::Tile {
 
   void center_big(int h) {
     lv_obj_set_height(big_, h);
-    const int top = head_, bottom = height_ - ui::line_height(Font::BODY);
+    const int top = name_h_ + head_, bottom = height_ - ui::line_height(Font::BODY);
     lv_obj_set_pos(big_, 0, top + std::max(0, (bottom - top - h) / 2));
   }
 
   const tessera::Plugin *plugin_;
-  int width_ = 0, height_ = 0, head_ = 0, walk_ = 0;
+  int width_ = 0, height_ = 0, head_ = 0, name_h_ = 0, walk_ = 0;
   bool late_ = true, has_entity_ = false, unavailable_ = false;
   uint32_t last_tick_ = 0, base_now_ = 0;
   int elapsed_ = 0;
   Departure current_, next_;
-  lv_obj_t *badge_{}, *number_{}, *to_{}, *big_{}, *later_{};
+  lv_obj_t *name_{}, *badge_{}, *number_{}, *to_{}, *big_{}, *later_{};
 };
 
 void EnturDepartures::setup() {

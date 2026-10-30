@@ -5,9 +5,10 @@ helst i Norge. Den leser en sensor du allerede har fra Home Assistants egen
 [Entur-integrasjon](https://www.home-assistant.io/integrations/entur_public_transport); denne pluginen spør aldri
 Entur selv, og krever derfor ingen konto, nøkkel eller ekstra tillatelse.
 
-Ruten viser linjen og hvor den går, hvor mange minutter til den går (som telles ned på skjermens egen klokke mellom
-to oppdateringer), og avgangen etter den under. En forsinkelse på ett minutt eller mer vises som «+2» bak hvor den
-går.
+Ruten viser navnet du ga den, linjen og hvor den går, og hvor mange minutter til den går (som telles ned på
+skjermens egen klokke mellom to oppdateringer). En forsinkelse på ett minutt eller mer vises som «+2» bak hvor den
+går. Uten gangtid viser den også avgangen etter under; med gangtid satt viser den i stedet når du må gå («Gå om 12
+min», så «Gå nå»), og går videre til neste avgang så snart du ikke lenger når denne.
 
 ## Slik setter du det opp
 
@@ -38,8 +39,11 @@ Hopp over dette hvis du allerede har `sensor.entur_...`-enheter.
 3. I inspektøren velger du sensoren for holdeplassen du vil ha, under feltet for enhet. Tessera viser alle sensorer
    som ser ut som en Entur-avgangssensor, så dine egne er lette å finne selv på et stort anlegg.
 4. Legg til én rute til per holdeplass eller plattform du vil følge med på; hver velger sin egen sensor.
-5. Sett **Gangtid til holdeplassen** til minuttene du trenger for å komme deg dit; en avgang du ikke når lenger, blir
-   hoppet over til fordel for den etter. Slå av **Vis forsinkelser** hvis du heller ikke vil se dem.
+5. Gi ruten et navn under **Navn på skjermen** (dette feltet har alle ruter); det vises øverst, og hjelper deg å
+   skille holdeplassene fra hverandre når du har flere enn én.
+6. Sett **Gangtid til holdeplassen** til minuttene du trenger for å komme deg dit. Med den satt sier ruten når du må
+   gå i stedet for den rene nedtellingen til bussen, og går videre til neste avgang så snart du ikke lenger når denne.
+   Slå av **Vis forsinkelser** hvis du heller ikke vil se dem.
 
 ## Godt å vite
 
@@ -50,6 +54,9 @@ Hopp over dette hvis du allerede har `sensor.entur_...`-enheter.
   integrasjonens innstilling `number_of_departures` legger til, kommer som ren tekst ruten ikke leser ennå.
 - En avgang du ikke når lenger (gjennom **Gangtid til holdeplassen**) blir hoppet over; når ingen er igjen, sier
   ruten det.
+- Ordene på skjermen (også denne rutens) følger skjermens eget byggespråk. Denne pluginen har engelsk og norsk
+  (bokmål); en skjerm bygget på et annet språk viser den på engelsk. Skjermens språk er en innstilling på selve
+  skjermen, ikke på denne pluginen, så bytt den der for å få norsk overalt, ikke bare på denne ruten.
 - Virker på alle typer skjermer, også CYD.
 
 ## Hvordan det virker
